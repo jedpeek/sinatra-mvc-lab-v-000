@@ -1,35 +1,61 @@
 class PigLatinizer
 
-  def piglatinize(input_str)
-    x = (input_str.split(" ").length == 1) ? piglatinize_word(input_str) : piglatinize_sentence(input_str)
-    puts x
-    x
-  end
+  def translate(str)
+      # Vowels to consider
+      vowels = ["a", "e", "i", "o", "u"]
 
-  private
+      # Special cases to consider
+      two_letter_consonants = ["ch", "sh", "qu", "th", "br"]
+      three_letter_consonants = ["thr", "sch", "squ"]
 
-  def consonant?(char)
-    !char.match(/[aAeEiIoOuU]/)
-  end
+      # Seperate each word from the phrase given
+      words = str.split(" ")
 
-  def piglatinize_word(word)
-    # word starts with vowel
-    if !consonant?(word[0])
-      word = word + "w"
-    # word starts with 3 consonants
-    elsif consonant?(word[0]) && consonant?(word[1]) && consonant?(word[2])
-      word = word.slice(3..-1) + word.slice(0,3)
-    # word starts with 2 consonants
-    elsif consonant?(word[0]) && consonant?(word[1])
-      word = word.slice(2..-1) + word.slice(0,2)
-    # word starts with 1 consonant
-    else
-      word = word.slice(1..-1) + word.slice(0)
-    end
-    word << "ay"
-  end
+      #Location for processed words
+      result = [];
 
-  def piglatinize_sentence(sentence)
-    sentence.split.collect { |word| piglatinize_word(word) }.join(" ")
-  end
+
+
+      words.each do |word|
+          # Words that start with a vowels
+          if vowels.include? word[0]
+              result.push word << 'ay'
+
+          # Words that start with a consonant
+          else
+              # Check for special consonants
+              if three_letter_consonants.include? word[0] + word[1] + word[2]
+                  # Slice off first three letters
+                  first_three_letters = word.slice!(0,3)
+
+                  # Add letters to end of word with 'ay'
+                  result.push word << first_three_letters << 'ay'
+
+              elsif  two_letter_consonants.include? word[0] + word[1]
+                  # Slice off first two letters
+                  first_two_letters = word.slice!(0,2)
+
+                  # Add the letters to end of word with 'ay'
+                  result.push word << first_two_letters << 'ay'
+
+              else
+                  # Slice off first letter...
+                  first_letter = word.slice!(0)
+
+                  # Add first letter to end of word with 'ay'
+                  result.push word << first_letter << 'ay'
+              end #End of special consonant check
+
+          end #End of vowel check
+
+
+
+      end #End of words.each
+
+
+
+      #Present the processed words as a single string
+      return result.join(" ")
+
+  end #End of translate function
 end
