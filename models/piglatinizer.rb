@@ -1,35 +1,52 @@
 class PigLatinizer
 
-  def piglatinize(input_str)
-    x = (input_str.split(" ").length == 1) ? piglatinize_word(input_str) : piglatinize_sentence(input_str)
-    puts x
-    x
+  def translate(sent)
+      sent = sent.downcase
+      vowels = ['a', 'e', 'i', 'o', 'u']
+      words = sent.split(' ')
+      result = []
+
+  words.each_with_index do |word, i|
+      translation = ''
+      qu = false
+      if vowels.include? word[0]
+          translation = word + 'ay'
+          result.push(translation)
+      else
+          word = word.split('')
+          count = 0
+          word.each_with_index do |char, index|
+              if vowels.include? char
+                  # handle words that start with 'qu'
+                  if char == 'u' and translation[-1] == 'q'
+                      qu = true
+                      translation = words[i][count + 1..words[i].length] + translation + 'uay'
+                      result.push(translation)
+                      next
+                  end
+                  break
+              else
+                  # handle words with 'qu' in middle
+                  if char == 'q' and word[i+1] == 'u'
+                      qu = true
+                      translation = words[i][count + 2..words[i].length] + 'quay'
+                      result.push(translation)
+                      next
+                  else
+                      translation += char
+                  end
+                  count += 1
+              end
+          end
+          # translation of consonant words without qu
+          if not qu
+              translation = words[i][count..words[i].length] + translation + 'ay'
+              result.push(translation)
+          end
+      end
+
   end
-
-
-  def consonant?(char)
-    !char.match(/[aAeEiIoOuU]/)
-  end
-
-  def piglatinize_word(word)
-    # word starts with vowel
-    if !consonant?(word[0])
-      word = word + "w"
-    # word starts with 3 consonants
-    elsif consonant?(word[0]) && consonant?(word[1]) && consonant?(word[2])
-      word = word.slice(3..-1) + word.slice(0,3)
-    # word starts with 2 consonants
-    elsif consonant?(word[0]) && consonant?(word[1])
-      word = word.slice(2..-1) + word.slice(0,2)
-    # word starts with 1 consonant
-    else
-      word = word.slice(1..-1) + word.slice(0)
-    end
-    word << "ay"
-  end
-
-  def piglatinize_sentence(sentence)
-    sentence.split.collect { |word| piglatinize_word(word) }.join(" ")
+  result.join(' ')
   end
 
 end
