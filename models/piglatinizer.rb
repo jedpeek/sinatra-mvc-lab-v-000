@@ -1,6 +1,6 @@
 class PigLatinizer
 
-  def translate(sent)
+  def piglatinize(sent)
       sent = sent.downcase
       vowels = ['a', 'e', 'i', 'o', 'u']
       words = sent.split(' ')
