@@ -1,9 +1,4 @@
 class PigLatinizer
-  attr_reader :text
-
-  def initialize(text)
-    @text = text
-  end
 
   def translate(text)
     alpha = ('a'..'z').to_a
