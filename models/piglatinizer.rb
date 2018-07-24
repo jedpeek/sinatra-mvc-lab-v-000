@@ -6,7 +6,6 @@ class PigLatinizer
     x
   end
 
-  private
 
   def consonant?(char)
     !char.match(/[aAeEiIoOuU]/)
@@ -32,5 +31,5 @@ class PigLatinizer
   def piglatinize_sentence(sentence)
     sentence.split.collect { |word| piglatinize_word(word) }.join(" ")
   end
-  
+
 end
