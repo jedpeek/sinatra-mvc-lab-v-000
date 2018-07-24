@@ -12,7 +12,6 @@ class PigLatinizer
     elsif consonants.include?(str[0])
       text[1..-1] + text[0] + 'ay'
     else
-      binding.pry
       text # return unchanged
     end
   end
