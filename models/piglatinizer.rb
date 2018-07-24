@@ -1,6 +1,6 @@
 class PigLatinizer
 
-  def translate(text)
+  def translate(word)
     if word =~ (/\A[aeiou]/i)
       word = word + 'ay'
     elsif word =~ (/\A[^aeiou]/i)
