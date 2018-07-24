@@ -1,6 +1,6 @@
 class PigLatinizer
 
-  def translate
+  def translate(text)
     return "Working"
   end
 end
