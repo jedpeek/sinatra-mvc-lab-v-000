@@ -1,6 +1,6 @@
 class PigLatinizer
 
   def translate(str)
-    puts str
+    return str
   end
 end
