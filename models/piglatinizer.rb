@@ -15,5 +15,5 @@ class PigLatinizer
       text # return unchanged
     end
   end
-  
+
 end
